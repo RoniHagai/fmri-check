@@ -1,0 +1,4 @@
+subject,session,file,problem,cohort
+sub-9999,ses-1,desc-confounds_regressors.tsv,missing,demo_cohort
+sub-9999,ses-1,sub-9999_task-bold.json,missing,demo_cohort
+sub-9999,ses-1,sub-9999_task-bold.nii.json,no TR,demo_cohort

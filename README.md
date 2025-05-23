@@ -1,5 +1,5 @@
 # fmri-check
-![CI](https://github.com/RoniHagai/fmri-check/actions/workflows/ci.yml/badge.svg)
+repo: https://github.com/RoniHagai/fmri-check.git
 
 Lightweight **CLI tool** for quick sanity-checks on *fMRIPrep* cohorts:
 flags missing NIfTIs, confounds TSVs, and absent **RepetitionTime** in JSON files.
