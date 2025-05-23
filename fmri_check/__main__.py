@@ -1,13 +1,13 @@
 """
 Entry-point for the fmri-check CLI:
-    python -m fmri_check <PATH> [options]
+
 
 Examples
 --------
-# הרצה על תקייה אמיתית ושמירת דו"ח CSV
+real data:
 python -m fmri_check K:\ayelet_fmriprep -o issues.csv
 
-# דמו אופליין על sample_data בתוך החבילה, ושמירת דו"ח Markdown
+demo data:
 python -m fmri_check --demo --md report.md
 """
 from __future__ import annotations
@@ -24,28 +24,28 @@ def parse_args() -> argparse.Namespace:
         description="Validate an fMRIPrep cohort directory."
     )
 
-    # דגל דמו – מריץ על נתוני הדוגמה המובנים בחבילה
+    # demo flag
     parser.add_argument(
         "--demo",
         action="store_true",
         help="Run validation on the built-in sample_data (ignore PATH)."
     )
 
-    # שמירת דו״ח Markdown
+    # save Markdown
     parser.add_argument(
         "--md",
         metavar="REPORT.md",
         help="Save issues as a Markdown table."
     )
 
-    # שמירת דו״ח CSV (שם-קיצור אופציונלי נשמר מהגרסה הראשונה)
+    # save CSV
     parser.add_argument(
         "-o", "--out",
         metavar="REPORT.csv",
         help="Save issues as a CSV file."
     )
 
-    # נתיב התקייה – נהיה אופציונלי (nargs='?') כי אפשר להשתמש ב---demo
+    #
     parser.add_argument(
         "path",
         nargs="?",
@@ -54,7 +54,7 @@ def parse_args() -> argparse.Namespace:
 
     args = parser.parse_args()
 
-    # ולידציה ידנית: חייבים או PATH או --demo
+    #
     if not args.demo and args.path is None:
         parser.error("You must supply PATH or use --demo")
 
@@ -64,22 +64,22 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
 
-    # קובעים את הנתיב לבדיקה
+    # set path for check
     if args.demo:
         cohort_path = resources.files("fmri_check") / "sample_data"
     else:
         cohort_path = Path(args.path).expanduser().resolve()
 
-    # הרצת הבדיקות
+    # check
     issues_df = validate_cohort(cohort_path)
 
-    # תוצאות
+    # results
     if issues_df.empty:
         print("✅ No issues found!")
     else:
         print(f"❌ Found {len(issues_df)} issues.")
 
-        # סדר עדיפויות: Markdown > CSV > הדפסה למסך
+
         if args.md:
             issues_df.to_markdown(args.md, index=False)
             print(f"Markdown report saved to: {args.md}")
